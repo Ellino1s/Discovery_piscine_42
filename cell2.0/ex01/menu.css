@@ -1,0 +1,85 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+:root {
+  --bar-with: 60px;
+  --bar-height: 8px;
+  --hamburger-gap: 6px;
+  --foregraund: #333;
+  --background: white;
+  --hamburger-margin: 5px;
+  --animation-timing: 200ms ease-in-out;
+  --hamburger-height: calc(var(--bar-height) * 3 + var(--hamburger-gap) * 2);
+}
+
+.hamburger_menu {
+  --x-width: calc(var(--hamburger-height) * 1.41421356237);
+  display: flex;
+  flex-direction: column;
+  gap: var(--hamburger-gap);
+  width: max-content;
+  position: absolute;
+  top: var(--hamburger-margin);
+  left: var(--hamburger-margin);
+  padding: 0.5rem 1rem;
+  z-index: 2;
+  cursor: pointer;
+}
+.hamburger_menu:has(input:checked) {
+  --foregraund: white;
+  --background: #333;
+}
+.hamburger_menu::before,
+.hamburger_menu::after,
+.hamburger_menu input {
+  content: "";
+  width: var(--bar-with);
+  height: var(--bar-height);
+  background-color: var(--foregraund);
+  border-radius: 9999px;
+  transform-origin: left center;
+  transition: opacity var(--animation-timing), with var(--animation-timing),
+    rotate var(--animation-timing), translate var(--animation-timing),
+    background-color var(--animation-timing);
+}
+.hamburger_menu input {
+  appearance: none;
+  padding: 0;
+  margin: 0;
+  outline: none;
+  pointer-events: none;
+}
+.hamburger_menu:has(input:checked)::before {
+  rotate: 45deg;
+  width: var(--x-width);
+  translate: 0 calc(var(--bar-height) / -2);
+}
+.hamburger_menu:has(input:checked)::after {
+  rotate: -45deg;
+  width: var(--x-width);
+  translate: 0 calc(var(--bar-height) / 2);
+}
+.hamburger_menu input:checked {
+  opacity: 0;
+  width: 0;
+}
+.sidebar {
+  transition: var(--animation-timing);
+  translate: -100%;
+  padding: 0.5rem 1rem;
+  padding: calc(var(--hamburger-height) + var(--hamburger-margin) + 1.5rem);
+  background-color: var(--foregraund);
+  color: var(--background);
+  max-width: 10rem;
+  min-height: 100vh;
+}
+.hamburger_menu:has(input:checked) + .sidebar {
+  translate: 0;
+}
